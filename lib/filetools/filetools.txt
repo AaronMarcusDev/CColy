@@ -1,0 +1,3 @@
+Filetools C library by AaronMarcusDev
+
+https://github.com/AaronMarcusDev/filetools
