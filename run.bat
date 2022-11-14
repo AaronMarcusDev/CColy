@@ -1,5 +1,5 @@
 @echo off
 cd src
-gcc ccoly.c -o app.exe
+gcc -o app.exe ccoly.c lexer/lexer.c
 app.exe ./input.coly
 cd ..

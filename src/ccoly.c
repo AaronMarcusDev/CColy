@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
+#include "lexer/lexer.h"
 #include "../lib/filetools/filetools.h"
 #include "../lib/boolconv/boolconv.h"
 
@@ -12,13 +12,15 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if (!fileExists(argv[1])) {
+    if (!fileExists(argv[1]))
+    {
         printf("File `%s` does not exist", argv[1]);
         exit(1);
     }
 
     char *source = readFile(argv[1]);
     printf("%s\n", source);
+    lexer();
 
     return 0;
 }
