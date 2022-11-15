@@ -198,17 +198,18 @@ void lexer(char *file, char *source)
             vc_vector_push_back(tokens, &tok);
             break;
         }
-        // case if integer
         case '"':
         {
+            int startLine = line;
             i++;
             int start = i;
             while (source[i] != '"')
             {
+                if (source[i] == '\n') line++;
                 i++;
                 if (i == sourceLength)
                 {
-                    printf("[ERROR] %s:%d, Unexpected end of file.\n", file, line);
+                    printf("[ERROR] %s:%d, Unterminated string.\n", file, startLine);
                     return;
                 }
             }
