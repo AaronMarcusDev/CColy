@@ -205,7 +205,8 @@ void lexer(char *file, char *source)
             int start = i;
             while (source[i] != '"')
             {
-                if (source[i] == '\n') line++;
+                if (source[i] == '\n')
+                    line++;
                 i++;
                 if (i == sourceLength)
                 {
@@ -236,21 +237,48 @@ void lexer(char *file, char *source)
         {
             if (source[i] >= '0' && source[i] <= '9')
             {
+                int dots = 0;
+                bool fastBreak = false;
+                bool isFloat = false;
                 char *number = malloc(1);
                 number[0] = source[i];
                 int numberLength = 1;
-                while (source[i + 1] >= '0' && source[i + 1] <= '9')
+                while (source[i + 1] >= '0' && source[i + 1] <= '9' || source[i + 1] == '.')
                 {
                     i++;
+                    if (source[i] == '.')
+                    {
+                        if (dots == 0)
+                        {
+                            dots++;
+                            isFloat = true;
+                        }
+                        else if (dots == 1)
+                        {
+                            printf("[ERROR] %s:%d, Illegal character `.`.\n", file, line);
+                            fastBreak = true;
+                            break;
+                        }
+                    }
                     number = realloc(number, numberLength + 1);
                     number[numberLength] = source[i];
                     numberLength++;
                 }
+                if (fastBreak)
+                    break;
+
                 number = realloc(number, numberLength + 1);
                 number[numberLength] = '\0';
                 struct token tok;
                 tok.line = line;
-                tok.type = TOKENTYPE_INT;
+                if (isFloat)
+                {
+                    tok.type = TOKENTYPE_FLOAT;
+                }
+                else
+                {
+                    tok.type = TOKENTYPE_INT;
+                }
                 tok.value = number;
                 vc_vector_push_back(tokens, &tok);
                 break;
@@ -282,12 +310,14 @@ void lexer(char *file, char *source)
                 break;
             }
         }
-    }
+        }
     }
 
     for (void *i = vc_vector_begin(tokens); i != vc_vector_end(tokens); i = vc_vector_next(tokens, i))
     {
-        printf("%s\n", ((struct token *)i)->value);
+        printf("Token: `%s` ", ((struct token *)i)->value);
+        printf("Type: %d ", ((struct token *)i)->type);
+        printf("Line: %d\n", ((struct token *)i)->line);
     }
 
     vc_vector_release(tokens);
