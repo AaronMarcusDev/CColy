@@ -4,7 +4,6 @@
 // custom
 #include "lexer/lexer.h"
 #include "../lib/filetools/filetools.h"
-#include "../lib/boolconv/boolconv.h"
 
 int main(int argc, char *argv[])
 {

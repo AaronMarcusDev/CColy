@@ -1,3 +1,3 @@
 #include "../../lib/vc_vector/vc_vector.h"
 
-extern void lexer(char *file, char *source);
+extern void parser(vc_vector *tokens);

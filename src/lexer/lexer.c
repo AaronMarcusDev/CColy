@@ -5,6 +5,8 @@
 // custom
 #include "lexer.h"
 #include "../token/token.h"
+#include "../parser/parser.h"
+#include "../compiler/compiler.h"
 #include "../../lib/vc_vector/vc_vector.h"
 
 // lexer
@@ -16,7 +18,7 @@ void lexer(char *file, char *source)
 
     if (!tokens)
     {
-        printf("[INTERNAL ERROR]: lexer: Could not create vc_vector `tokens`.");
+        printf("[INTERNAL ERROR]: lexer: Could not create vc_vector `tokens`.\n");
     }
 
     int line = 1;
@@ -313,12 +315,7 @@ void lexer(char *file, char *source)
         }
     }
 
-    for (void *i = vc_vector_begin(tokens); i != vc_vector_end(tokens); i = vc_vector_next(tokens, i))
-    {
-        printf("Token: `%s` ", ((struct token *)i)->value);
-        printf("Type: %d ", ((struct token *)i)->type);
-        printf("Line: %d\n", ((struct token *)i)->line);
-    }
-
+    // lexer(tokens);
+    compiler(tokens);
     vc_vector_release(tokens);
 }
