@@ -1,4 +1,4 @@
 # CColy
-The C implementation of the Coly Compliler
+Experimental C implementation of the Coly Compliler
 
 # ! DISCONTINUED !
